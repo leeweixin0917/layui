@@ -8,14 +8,14 @@ import com.southwind.layui.entity.ProductCategory;
 import com.southwind.layui.mapper.ProductCategoryMapper;
 import com.southwind.layui.mapper.ProductMapper;
 import com.southwind.layui.service.ProductService;
-import com.southwind.layui.vo.DataVO;
-import com.southwind.layui.vo.ProductVO;
+import com.southwind.layui.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -59,5 +59,30 @@ public class ProductServiceImpl implements ProductService {
         }
         dataVO.setData(productVOList);
         return dataVO;
+    }
+
+    @Override
+    public BarVO getBarVO(){
+        List<ProductBarVO> list = productMapper.findAllProductBarVO();
+        List<String> names = new ArrayList<>();
+        List<Integer> values = new ArrayList<>();
+        for(ProductBarVO productBarVO : list){
+            names.add(productBarVO.getName());
+            values.add(productBarVO.getCount());
+        }
+        BarVO barVO = new BarVO();
+        barVO.setNames(names);
+        barVO.setValues(values);
+        return barVO;
+    }
+    @Override
+    public List<PieVO> getPieVO(){
+        List<ProductBarVO> list = productMapper.findAllProductBarVO();
+        List<PieVO> pieVOList = list.stream()
+                .map(e -> new PieVO(
+                        e.getCount(),
+                        e.getName()
+                )).collect(Collectors.toList());
+        return pieVOList;
     }
 }

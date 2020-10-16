@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="layui/jquery.min.js"></script>
+		<script src="layui/echarts.min.js"></script>
+	</head>
+	<body>
+		<div id="main" style="width: 600px;height:400px"></div>
+		<script type="text/javascript">
+			
+			$(function(){
+				$.ajax({
+					// "url":"http://localhost:8080/barVO",
+					"url":"/barVO",
+					"type":"POST",
+					"success":function(data){
+						console.log(data)
+						console.log(data.names)
+						console.log(data.values)
+						// 基于准备好的dom，初始化echarts实例
+						var myChart = echarts.init(document.getElementById('main'));
+								
+						// 指定图表的配置项和数据
+						var option = {
+								xAxis: {
+									type: 'category',
+									// data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+									data: data.names
+								},
+								yAxis: {
+									type: 'value'
+								},
+								series: [{
+									// data: [120, 200, 150, 80, 70, 110, 130],
+									data: data.values,
+									type: 'bar',
+									showBackground: true,
+									backgroundStyle: {
+										color: 'rgba(220, 220, 220, 0.8)'
+										}
+									}]
+								};
+								
+						// 使用刚指定的配置项和数据显示图表。
+						myChart.setOption(option);
+					}
+				});
+			})
+		       
+		    </script>
+	</body>
+</html>

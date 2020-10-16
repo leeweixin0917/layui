@@ -1,5 +1,6 @@
 package com.southwind.layui.service;
 
+import com.southwind.layui.vo.BarVO;
 import com.southwind.layui.vo.DataVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,12 @@ class ProductServiceTest {
     private ProductService service;
     @Test
     void findData() {
-        DataVO dataVO = service.findData(1, 10);
+//        DataVO dataVO = service.findData(1, 10);
+        int i = 0;
+    }
+    @Test
+    void test(){
+        BarVO barVO = service.getBarVO();
         int i = 0;
     }
 }
